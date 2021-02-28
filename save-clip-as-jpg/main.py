@@ -6,7 +6,7 @@ import datetime
 
 def make_name():
     d = datetime.datetime.now()
-    name = "{}-{}-{}_{}-{}-{}-{}.jpg".format(d.year, d.month, d.day, d.hour, d.minute, d.second, d.microsecond)
+    name = "screenshot_{:04}-{:02}-{:02}_{:02}-{:02}-{:02}-{}.jpg".format(d.year, d.month, d.day, d.hour, d.minute, d.second, d.microsecond)
     return name
 
 im = ImageGrab.grabclipboard()
