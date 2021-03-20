@@ -293,7 +293,8 @@ csv_path = args[0]
 start_index = int(get_or_else(args, 1, 1)) - 1
 csv_body = file_read(csv_path)
 lines = csv_body.split("\n")[start_index:]
-NoL = len(lines)
+NoL = len(lines) + start_index
 print()
 for csv_index, line in enumerate(lines):
+    csv_index += start_index
     execute_line(line)
