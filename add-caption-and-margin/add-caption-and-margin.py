@@ -244,7 +244,7 @@ def execute_line(line):
             raise_value_error_and_generate_command("filepath and comment both are null.")
         new_img = create_horizontal_text_img(comment, create_font_according_img(img), width)
         new_width, new_height = new_img.size
-        new_img = add_margin(new_img, new_width + margin * 2, new_height + margin * 2, "center", "center")
+        new_img = add_margin(new_img, new_width + int(MARGIN_CAPTION_RATE * new_width) * 2, new_height + int(MARGIN_CAPTION_RATE * new_width) * 2, "center", "center")
         new_width, new_height = new_img.size
         new_img = add_margin(new_img, new_width, new_width, "center", "top")
     elif comment != "":
