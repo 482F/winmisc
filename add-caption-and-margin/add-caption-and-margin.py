@@ -6,6 +6,7 @@ import time
 import re
 import os
 import pathlib
+import hashlib
 
 FONT_NAME = "meiryo.ttc"
 WHITE = (255, 255, 255)
@@ -239,7 +240,7 @@ def execute_line(line):
     mkdir("output")
     if img_path == "":
         if output_name == "":
-            output_name = "white_comment" + str(time.time()) + ".jpg"
+            output_name = "white_comment_" + hashlib.md5(comment.encode()).hexdigest() + ".jpg"
         elif comment == "":
             raise_value_error_and_generate_command("filepath and comment both are null.")
         new_img = create_horizontal_text_img(comment, create_font_according_img(img), width)
