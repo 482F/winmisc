@@ -16,7 +16,7 @@ LINE_SPACE_RATE = 0.1
 MIN_IMG_RATE = 0.1
 MARGIN_CAPTION_RATE = 0.1
 MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE = 0.03
-FONT_SIZE_RATE = 0.03
+FONT_SIZE_RATE = 0.028
 
 def calc_text_size(text, font):
     """text の文字列を font でレンダリングした際のサイズを調べる関数
