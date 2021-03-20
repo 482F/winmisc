@@ -200,7 +200,7 @@ def execute_line(line):
     """
     elements = line.split(",")
     img_path = get_or_else(elements, 0, "")
-    output_name = get_or_else(elements, 1, "")
+    output_name = get_or_else(elements, 1, img_path)
 
     print("\033[1A\033[2Kprocessing: {} -> {} ({}/{})".format(img_path, output_name, csv_index + 1, NoL))
 
