@@ -199,7 +199,7 @@ def raise_value_error_and_generate_command(error_text):
 def execute_line(line):
     """csv を一行ずつここに読み込ませて、キャプションとマージンを追加する
     """
-    elements = line.split(",")
+    elements = line.split(",")[1:]
     img_path = get_or_else(elements, 0, "")
     output_name = get_or_else(elements, 1, img_path)
 
