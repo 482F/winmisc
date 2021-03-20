@@ -191,7 +191,7 @@ def mkdir(path):
 def raise_value_error_and_generate_command(error_text):
     raise ValueError(error_text + "\n"
         + "fix above error and execute below command\n"
-        + "COMMAND: python3 " + str(pathlib.Path(__file__).resolve()) + " " + str(pathlib.Path(csv_path).resolve()) + " " + str(csv_index + 1)
+        + "COMMAND: python3 \"" + str(pathlib.Path(__file__).resolve()) + "\" \"" + str(pathlib.Path(csv_path).resolve()) + "\" " + str(csv_index + 1)
     )
     return
 
