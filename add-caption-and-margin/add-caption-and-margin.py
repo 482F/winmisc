@@ -248,7 +248,7 @@ def execute_line(line):
         new_width, new_height = new_img.size
         new_img = add_margin(new_img, new_width, new_width, "center", "top")
         if new_width < new_height:
-            print("CAUTION: There are too many characters in the comment.")
+            print("CAUTION: There are too many characters in the comment.\n")
     elif comment != "":
         img_long, img_short = max(img.size), min(img.size)
         if width != img_long or height != img_long:
@@ -275,7 +275,7 @@ def execute_line(line):
             rate = (img_long - text_short) / img_short
             if rate < MIN_IMG_RATE:
                 rate = MIN_IMG_RATE
-                print("CAUTION: There are too many characters in the comment.")
+                print("CAUTION: There are too many characters in the comment.\n")
             img = img_shrink(img, rate)
             img_width, img_height = img.size
         if img_height <= img_width:
