@@ -149,7 +149,7 @@ def create_font_according_img(img):
     """img に基づいてフォントの大きさを決め、Font を返す関数
     """
     long_side = max(img.size)
-    return ImageFont.truetype(FONT_NAME, long_side // FONT_SIZE_RATE)
+    return ImageFont.truetype(FONT_NAME, int(long_side * FONT_SIZE_RATE))
 
 def calc_text(text):
     """文字列を数式として計算する関数
