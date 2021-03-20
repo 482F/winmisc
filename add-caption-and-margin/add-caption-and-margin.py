@@ -247,6 +247,8 @@ def execute_line(line):
         new_img = add_margin(new_img, new_width + int(MARGIN_CAPTION_RATE * new_width) * 2, new_height + int(MARGIN_CAPTION_RATE * new_width) * 2, "center", "center")
         new_width, new_height = new_img.size
         new_img = add_margin(new_img, new_width, new_width, "center", "top")
+        if new_width < new_height:
+            print("CAUTION: There are too many characters in the comment.")
     elif comment != "":
         img_long, img_short = max(img.size), min(img.size)
         if width != img_long or height != img_long:
