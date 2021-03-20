@@ -205,6 +205,8 @@ def execute_line(line):
 
     print("\033[1A\033[2Kprocessing: {} -> {} ({}/{})".format(img_path, output_name, csv_index + 1, NoL))
 
+    if len(line) < 1 or line[0]  in ["#", '"']:
+        return
 
     if img_path == "" and get_or_else(elements, 2, "") == "":
         raise_value_error_and_generate_command("filepath and width both are null.")
@@ -288,7 +290,7 @@ args = sys.argv[1:]
 csv_path = args[0]
 start_index = int(get_or_else(args, 1, 1)) - 1
 csv_body = file_read(csv_path)
-lines = [line for line in csv_body.split("\n")[start_index:] if 1 <= len(line) and line[0] not in ["#", '"']]
+lines = csv_body.split("\n")[start_index:]
 NoL = len(lines)
 print()
 for csv_index, line in enumerate(lines):
