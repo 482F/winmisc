@@ -232,7 +232,7 @@ def execute_line(line):
     mkdir("output")
     if img_path == "":
         if output_name == "":
-            raise_value_error_and_generate_command("filepath and outputpath both are null.")
+            output_name = "white_comment" + str(time.time()) + ".jpg"
         elif comment == "":
             raise_value_error_and_generate_command("filepath and comment both are null.")
         new_img = create_horizontal_text_img(comment, create_font_according_img(img), width)
