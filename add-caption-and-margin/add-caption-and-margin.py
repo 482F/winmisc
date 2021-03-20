@@ -267,8 +267,6 @@ def execute_line(line):
             text_width, text_height = text_img.size
             text_img = add_margin(text_img, text_width + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), text_height, "right", "center")
             text_img = add_margin(text_img, text_width + margin_caption, text_height + margin_caption * 2, "left", "center")
-        else:
-            raise_value_error_and_generate_command("width and height of source image are same. There is no margin.")
 
         text_long, text_short = max(text_img.size), min(text_img.size)
         if img_long < img_short + text_short:
