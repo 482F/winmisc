@@ -234,7 +234,11 @@ def execute_line(line):
     width = replace_and_calc_text(width_str, img)
     height = replace_and_calc_text(get_or_else(elements, 3, "long"), img)
     anchor_x = get_or_else(elements, 4, "left")
+    if anchor_x not in ["left", "center", "right"]:
+        raise_value_error_and_generate_command("anchor_x must be \"left\" or \"center\" or \"right\".")
     anchor_y = get_or_else(elements, 5, "top")
+    if anchor_y not in ["top", "center", "bottom"]:
+        raise_value_error_and_generate_command("anchor_y must be \"top\" or \"center\" or \"bottom\".")
     margin = replace_and_calc_text(get_or_else(elements, 6, "long*0.01"), img)
     comment = ""
     if 7 < len(elements):
