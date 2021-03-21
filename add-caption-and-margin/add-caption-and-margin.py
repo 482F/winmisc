@@ -18,7 +18,9 @@ MIN_IMG_RATE = 0.1
 MARGIN_CAPTION_RATE = 0.1
 MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE = 0.03
 FONT_SIZE_RATE = 0.028
+FOOTER_FONT_SIZE_RATE = 0.02
 MIN_MIN_WIDTH_RATE = 0.28
+FOOTER_MARGIN_RATE = (0.02, 0.02)
 
 def calc_text_size(text, font):
     """text の文字列を font でレンダリングした際のサイズを調べる関数
@@ -217,9 +219,11 @@ def execute_line(line):
     if len(line) < 1 or line[0]  in ["#", '"']:
         return
 
-    if img_path == "" and get_or_else(elements, 2, "") == "":
-        elements[2] = "2800"
-    width_str = get_or_else(elements, 2, "long")
+    footer = get_or_else(elements, 2, "")
+
+    if img_path == "" and get_or_else(elements, 3, "") == "":
+        elements[3] = "2800"
+    width_str = get_or_else(elements, 3, "long")
     if img_path == "":
         try:
             width = int(width_str)
@@ -232,17 +236,17 @@ def execute_line(line):
     img_width, img_height = img.size
 
     width = replace_and_calc_text(width_str, img)
-    height = replace_and_calc_text(get_or_else(elements, 3, "long"), img)
-    anchor_x = get_or_else(elements, 4, "left")
+    height = replace_and_calc_text(get_or_else(elements, 4, "long"), img)
+    anchor_x = get_or_else(elements, 5, "left")
     if anchor_x not in ["left", "center", "right"]:
         raise_value_error_and_generate_command("anchor_x must be \"left\" or \"center\" or \"right\".")
-    anchor_y = get_or_else(elements, 5, "top")
+    anchor_y = get_or_else(elements, 6, "top")
     if anchor_y not in ["top", "center", "bottom"]:
         raise_value_error_and_generate_command("anchor_y must be \"top\" or \"center\" or \"bottom\".")
-    margin = replace_and_calc_text(get_or_else(elements, 6, "long*0.01"), img)
+    margin = replace_and_calc_text(get_or_else(elements, 7, "long*0.01"), img)
     comment = ""
-    if 7 < len(elements):
-        comment = ",".join(elements[7:])
+    if 8 < len(elements):
+        comment = ",".join(elements[8:])
     if comment[0] == '"':
         comment = comment[1:]
     if comment[-1] == '"':
@@ -305,15 +309,33 @@ def execute_line(line):
             img_paste_pos = ((width - img_width) // 2, 0)
             text_img_paste_pos = (0, img_height)
         elif img_width < img_height:
-            img_paste_pos = (0, (height - img_height) // 2)
-            text_img_paste_pos = (img_width, 0)
+            if anchor_x == "left":
+                img_paste_pos = (0, (height - img_height) // 2)
+                text_img_paste_pos = (img_width, 0)
+            elif anchor_x == "right":
+                img_paste_pos = (text_width, (height - img_height) // 2)
+                text_img_paste_pos = (0, 0)
 
         new_img = Image.new(img.mode, (width, height), BG_COLOR)
         new_img.paste(img, img_paste_pos)
         new_img.paste(text_img, text_img_paste_pos)
     else:
         new_img = add_margin(img, width, height, anchor_x, anchor_y)
+
     new_img_width, new_img_height = new_img.size
+    if footer != "":
+        dummy_long = max(img.size)
+        dummy_img = Image.new("RGB", (round(dummy_long * (FOOTER_FONT_SIZE_RATE / FONT_SIZE_RATE)), 1), BG_COLOR)
+        footer_font = create_font_according_img(dummy_img)
+        footer_width, footer_height = calc_text_size(footer, footer_font)
+        footer_img = Image.new("RGB", (footer_width, footer_height), BG_COLOR)
+        footer_drawer = ImageDraw.Draw(footer_img)
+        footer_drawer.text((0, 0), footer, fill=TEXT_COLOR, font=footer_font)
+        if anchor_x == "left":
+            footer_paste_pos = (new_img_width - footer_width - round(img_long * FOOTER_MARGIN_RATE[0]), new_img_height - footer_height - round(img_long * FOOTER_MARGIN_RATE[1]))
+        elif anchor_x == "right":
+            footer_paste_pos = (round(img_long * FOOTER_MARGIN_RATE[0]), new_img_height - footer_height - round(img_long * FOOTER_MARGIN_RATE[1]))
+        new_img.paste(footer_img, footer_paste_pos)
     new_img = add_margin(new_img, new_img_width + margin * 2, new_img_height + margin * 2, "center", "center")
     new_img.save("output\\" + output_name)
     return
