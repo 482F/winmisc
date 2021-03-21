@@ -346,7 +346,7 @@ def execute_line(line):
 
     new_img_width, new_img_height = new_img.size
     if footer != "":
-        dummy_long = max(img.size)
+        dummy_long = max(new_img.size)
         dummy_img = Image.new("RGB", (round(dummy_long * (FOOTER_FONT_SIZE_RATE / FONT_SIZE_RATE)), 1), BG_COLOR)
         footer_font = create_font_according_img(dummy_img)
         footer_width, footer_height = calc_text_size(footer, footer_font)
