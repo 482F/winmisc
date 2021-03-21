@@ -208,12 +208,13 @@ def execute_line(line):
     elements_index_dict["filepath"] = 1
     elements_index_dict["outputname"] = 2
     elements_index_dict["footer"] = 3
-    elements_index_dict["width"] = 4
-    elements_index_dict["height"] = 5
-    elements_index_dict["anchor_x"] = 6
-    elements_index_dict["anchor_y"] = 7
-    elements_index_dict["margin"] = 8
-    elements_index_dict["comment"] = 9
+    elements_index_dict["footer_anchor_x"] = 4
+    elements_index_dict["width"] = 5
+    elements_index_dict["height"] = 6
+    elements_index_dict["anchor_x"] = 7
+    elements_index_dict["anchor_y"] = 8
+    elements_index_dict["margin"] = 9
+    elements_index_dict["comment"] = 10
     elements = line.split(",")
     img_path = get_or_else(elements, elements_index_dict["filepath"], "")
     output_name = get_or_else(elements, elements_index_dict["outputname"], img_path)
@@ -230,6 +231,9 @@ def execute_line(line):
         return
 
     footer = get_or_else(elements, elements_index_dict["footer"], "")
+    footer_anchor_x = get_or_else(elements, elements_index_dict["footer_anchor_x"], "")
+    if footer != "" and footer_anchor_x not in ["right", "left"]:
+        raise_value_error_and_generate_command("footer_anchor_x must be \"right\" or \"left\" when footer is not null.")
 
     if img_path == "" and get_or_else(elements, elements_index_dict["width"], "") == "":
         elements[3] = "2800"
@@ -342,9 +346,9 @@ def execute_line(line):
         footer_img = Image.new("RGB", (footer_width, footer_height), BG_COLOR)
         footer_drawer = ImageDraw.Draw(footer_img)
         footer_drawer.text((0, 0), footer, fill=TEXT_COLOR, font=footer_font)
-        if anchor_x == "left":
+        if footer_anchor_x == "right":
             footer_paste_pos = (new_img_width - footer_width - round(img_long * FOOTER_MARGIN_RATE[0]), new_img_height - footer_height - round(img_long * FOOTER_MARGIN_RATE[1]))
-        elif anchor_x == "right":
+        elif footer_anchor_x == "left":
             footer_paste_pos = (round(img_long * FOOTER_MARGIN_RATE[0]), new_img_height - footer_height - round(img_long * FOOTER_MARGIN_RATE[1]))
         new_img.paste(footer_img, footer_paste_pos)
     new_img = add_margin(new_img, new_img_width + margin * 2, new_img_height + margin * 2, "center", "center")

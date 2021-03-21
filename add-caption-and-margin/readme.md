@@ -6,9 +6,9 @@ python3 add-caption-and-margin.py csv_path.csv [start_index]
 
 ### csv の書式
 
-|sharp|filepath|outputname|footer|width|height|anchor_x|anchor_y|margin|comment|
-|:----|:-------|:---------|:-----|:----|:-----|:-------|:-------|:-----|:------|
-||default_value.jpg|||long|long|left|top|long*0.01||
+|sharp|filepath|outputname|footer|footer_anchor_x|width|height|anchor_x|anchor_y|margin|comment|
+|:----|:-------|:---------|:-----|:--------------|:----|:-----|:-------|:-------|:-----|:------|
+||default_value.jpg||||long|long|left|top|long*0.01||
 
 - sharp
   - `#` を入れるとその行は飛ばされる
@@ -20,7 +20,11 @@ python3 add-caption-and-margin.py csv_path.csv [start_index]
 - footer
   - ページ下部に表示される文字列
   - ページ番号を入れたりする
-  - anchor_x で指定したのと逆側に表示される
+  - footer_anchor_x で指定した側に表示される
+- footer_anchor_x
+  - footer の表示側
+  - right か left を入力する
+  - footer が設定されているのにこれが設定されていないとエラーが出る
 - width, height
   - 加工後の横幅、縦幅
   - 加工前より大きい値ならば余白が追加され、小さい値ならば切り取られる
