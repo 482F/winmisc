@@ -204,9 +204,19 @@ def raise_value_error_and_generate_command(error_text):
 def execute_line(line):
     """csv を一行ずつここに読み込ませて、キャプションとマージンを追加する
     """
-    elements = line.split(",")[1:]
-    img_path = get_or_else(elements, 0, "")
-    output_name = get_or_else(elements, 1, img_path)
+    elements_index_dict = {}
+    elements_index_dict["filepath"] = 1
+    elements_index_dict["outputname"] = 2
+    elements_index_dict["footer"] = 3
+    elements_index_dict["width"] = 4
+    elements_index_dict["height"] = 5
+    elements_index_dict["anchor_x"] = 6
+    elements_index_dict["anchor_y"] = 7
+    elements_index_dict["margin"] = 8
+    elements_index_dict["comment"] = 9
+    elements = line.split(",")
+    img_path = get_or_else(elements, elements_index_dict["filepath"], "")
+    output_name = get_or_else(elements, elements_index_dict["outputname"], img_path)
 
     print_img_path = img_path
     if 10 < len(img_path):
@@ -219,11 +229,11 @@ def execute_line(line):
     if len(line) < 1 or line[0]  in ["#", '"']:
         return
 
-    footer = get_or_else(elements, 2, "")
+    footer = get_or_else(elements, elements_index_dict["footer"], "")
 
-    if img_path == "" and get_or_else(elements, 3, "") == "":
+    if img_path == "" and get_or_else(elements, elements_index_dict["width"], "") == "":
         elements[3] = "2800"
-    width_str = get_or_else(elements, 3, "long")
+    width_str = get_or_else(elements, elements_index_dict["width"], "long")
     if img_path == "":
         try:
             width = int(width_str)
@@ -236,17 +246,17 @@ def execute_line(line):
     img_width, img_height = img.size
 
     width = replace_and_calc_text(width_str, img)
-    height = replace_and_calc_text(get_or_else(elements, 4, "long"), img)
-    anchor_x = get_or_else(elements, 5, "left")
+    height = replace_and_calc_text(get_or_else(elements, elements_index_dict["height"], "long"), img)
+    anchor_x = get_or_else(elements, elements_index_dict["anchor_x"], "left")
     if anchor_x not in ["left", "center", "right"]:
         raise_value_error_and_generate_command("anchor_x must be \"left\" or \"center\" or \"right\".")
-    anchor_y = get_or_else(elements, 6, "top")
+    anchor_y = get_or_else(elements, elements_index_dict["anchor_y"], "top")
     if anchor_y not in ["top", "center", "bottom"]:
         raise_value_error_and_generate_command("anchor_y must be \"top\" or \"center\" or \"bottom\".")
-    margin = replace_and_calc_text(get_or_else(elements, 7, "long*0.01"), img)
+    margin = replace_and_calc_text(get_or_else(elements, elements_index_dict["margin"], "long*0.01"), img)
     comment = ""
-    if 8 < len(elements):
-        comment = ",".join(elements[8:])
+    if elements_index_dict["comment"] < len(elements):
+        comment = ",".join(elements[elements_index_dict["comment"]:])
     if 1 < len(comment):
         if comment[0] == '"':
             comment = comment[1:]
