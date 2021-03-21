@@ -172,7 +172,10 @@ def calc_text(text):
         function = float.__mul__
         operator = "*"
     else:
-        return float(text)
+        try:
+            return float(text)
+        except ValueError:
+            raise_value_error_and_generate_command("\"text\" cannot convert to float.")
     index = text.find(operator)
     A = text[:index]
     B = text[index+1:]
