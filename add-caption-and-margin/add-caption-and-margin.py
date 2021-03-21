@@ -283,7 +283,7 @@ def execute_line(line):
             text_img = add_margin(text_img, text_width + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), text_height, "right", "center")
             text_img = add_margin(text_img, text_width + margin_caption, text_height + margin_caption * 2, "left", "center")
 # text の long と short が実態に即さない場合があるが、img の短辺が横であったら、text の short も (実際に横が短辺でなくても) 横とするため
-            text_short, text_width = text_img.size
+            text_short, text_long = text_img.size
 
         if img_long < img_short + text_short:
             rate = (img_long - text_short) / img_short
