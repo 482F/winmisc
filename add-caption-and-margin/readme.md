@@ -7,7 +7,7 @@ python3 add-caption-and-margin.py csv_path.csv [start_index]
 ### csv の書式
 
 |sharp|filepath|outputname|width|height|anchor_x|anchor_y|margin|comment|
-|:-------|:---------|:----|:-----|:-------|:-------|:-----|:------|
+|:----|:-------|:---------|:----|:-----|:-------|:-------|:-----|:------|
 ||default_value.jpg||long|long|left|top|long*0.01||
 
 - sharp
