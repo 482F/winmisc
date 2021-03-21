@@ -206,7 +206,13 @@ def execute_line(line):
     img_path = get_or_else(elements, 0, "")
     output_name = get_or_else(elements, 1, img_path)
 
-    print("\033[1A\033[2Kprocessing: {} -> {} ({}/{})".format(img_path, output_name, csv_index + 1, NoL))
+    print_img_path = img_path
+    if 10 < len(img_path):
+        print_img_path = img_path[:10] + "..."
+    print_output_name = output_name
+    if 10 < len(output_name):
+        print_output_name = output_name[:10] + "..."
+    print("\033[1A\033[2Kprocessing: {} -> {} ({}/{})".format(print_img_path, print_output_name, csv_index + 1, NoL))
 
     if len(line) < 1 or line[0]  in ["#", '"']:
         return
