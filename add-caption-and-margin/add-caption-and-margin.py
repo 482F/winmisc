@@ -18,6 +18,7 @@ MIN_IMG_RATE = 0.1
 MARGIN_CAPTION_RATE = 0.1
 MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE = 0.03
 FONT_SIZE_RATE = 0.028
+MIN_MIN_WIDTH_RATE = 0.28
 
 def calc_text_size(text, font):
     """text の文字列を font でレンダリングした際のサイズを調べる関数
@@ -262,16 +263,23 @@ def execute_line(line):
             text_width, text_height = text_img.size
             text_img = add_margin(text_img, text_width, text_height + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), "center", "bottom")
             text_img = add_margin(text_img, text_width + margin_caption * 2, text_height + margin_caption, "center", "top")
+# text の long と short が実態に即さない場合があるが、img の短辺が横であったら、text の short も (実際に横が短辺でなくても) 横とするため
+            text_long, text_short = text_width, text_height
         elif img_width < img_height:
             if anchor_x != "left":
                 raise_value_error_and_generate_command("anchor_x must be \"left\" when source image is portrait.")
             margin_caption = int(img_long * MARGIN_CAPTION_RATE)
-            text_img = create_vertical_text_img(comment, create_font_according_img(img), height- margin_caption * 2, img_long - img_short - margin_caption)
+            min_width = img_long - img_short - margin_caption
+            if min_width < img_long * MIN_MIN_WIDTH_RATE:
+                min_width = round(img_long * MIN_MIN_WIDTH_RATE)
+            text_img = create_vertical_text_img(comment, create_font_according_img(img), height- margin_caption * 2, min_width)
             text_width, text_height = text_img.size
             text_img = add_margin(text_img, text_width + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), text_height, "right", "center")
             text_img = add_margin(text_img, text_width + margin_caption, text_height + margin_caption * 2, "left", "center")
+# text の long と short が実態に即さない場合があるが、img の短辺が横であったら、text の short も (実際に横が短辺でなくても) 横とするため
+            text_long, text_short = text_height, text_width
 
-        text_long, text_short = max(text_img.size), min(text_img.size)
+        print(img_long, text_short, img_short, "\n")
         if img_long < img_short + text_short:
             rate = (img_long - text_short) / img_short
             if rate < MIN_IMG_RATE:
