@@ -345,7 +345,7 @@ def execute_line(line):
         new_img = add_margin(img, width, height, anchor_x, anchor_y)
 
     new_img_width, new_img_height = new_img.size
-    if footer != "" and not 0.99 < img_height / img_width < 1.01:
+    if footer != "" and ((not 0.99 < img_height / img_width < 1.01) or comment != ""):
         1.02 < 1000/width
         width < 980.39
         dummy_long = max(new_img.size)
