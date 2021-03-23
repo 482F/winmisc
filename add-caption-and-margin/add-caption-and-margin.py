@@ -14,6 +14,7 @@ BG_COLOR = WHITE
 TEXT_COLOR = BLACK
 LINE_SPACE_RATE = 0.1
 MIN_IMG_RATE = 0.1
+MARGIN_CAPTION_RATE = 0.1
 MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE = 0.03
 
 def calc_text_size(text, font):
@@ -242,15 +243,19 @@ def execute_line(line):
         elif img_height <= img_width:
             if anchor_y != "top":
                 raise_value_error_and_generate_command("anchor_y must be \"top\" when source image is landscape.")
-            text_img = create_horizontal_text_img(comment, create_font_according_img(img), width)
+            margin_caption = int(img_long * MARGIN_CAPTION_RATE)
+            text_img = create_horizontal_text_img(comment, create_font_according_img(img), width - margin_caption * 2)
             text_width, text_height = text_img.size
             text_img = add_margin(text_img, text_width, text_height + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), "center", "bottom")
+            text_img = add_margin(text_img, text_width + margin_caption * 2, text_height + margin_caption, "center", "top")
         elif img_width < img_height:
             if anchor_x != "left":
                 raise_value_error_and_generate_command("anchor_x must be \"left\" when source image is portrait.")
-            text_img = create_vertical_text_img(comment, create_font_according_img(img), height, img_long - img_short)
+            margin_caption = int(img_long * MARGIN_CAPTION_RATE)
+            text_img = create_vertical_text_img(comment, create_font_according_img(img), height- margin_caption * 2, img_long - img_short - margin_caption)
             text_width, text_height = text_img.size
             text_img = add_margin(text_img, text_width + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), text_height, "right", "center")
+            text_img = add_margin(text_img, text_width + margin_caption, text_height + margin_caption * 2, "left", "center")
         else:
             raise_value_error_and_generate_command("width and height of source image are same. There is no margin.")
 
