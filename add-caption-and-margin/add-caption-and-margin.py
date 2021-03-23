@@ -16,6 +16,7 @@ LINE_SPACE_RATE = 0.1
 MIN_IMG_RATE = 0.1
 MARGIN_CAPTION_RATE = 0.1
 MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE = 0.03
+FONT_SIZE_RATE = 0.03
 
 def calc_text_size(text, font):
     """text の文字列を font でレンダリングした際のサイズを調べる関数
@@ -148,7 +149,7 @@ def create_font_according_img(img):
     """img に基づいてフォントの大きさを決め、Font を返す関数
     """
     long_side = max(img.size)
-    return ImageFont.truetype(FONT_NAME, long_side // 40)
+    return ImageFont.truetype(FONT_NAME, long_side // FONT_SIZE_RATE)
 
 def calc_text(text):
     """文字列を数式として計算する関数
