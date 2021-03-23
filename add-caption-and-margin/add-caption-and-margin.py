@@ -210,7 +210,7 @@ def execute_line(line):
         return
 
     if img_path == "" and get_or_else(elements, 2, "") == "":
-        raise_value_error_and_generate_command("filepath and width both are null.")
+        elements[2] = "2080"
     width_str = get_or_else(elements, 2, "long")
     if img_path == "":
         try:
