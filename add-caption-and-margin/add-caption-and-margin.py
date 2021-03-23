@@ -211,7 +211,7 @@ def execute_line(line):
         return
 
     if img_path == "" and get_or_else(elements, 2, "") == "":
-        elements[2] = "2080"
+        elements[2] = "2800"
     width_str = get_or_else(elements, 2, "long")
     if img_path == "":
         try:
