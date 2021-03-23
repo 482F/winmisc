@@ -6,6 +6,7 @@ import time
 import re
 import os
 import pathlib
+import hashlib
 
 FONT_NAME = "meiryo.ttc"
 WHITE = (255, 255, 255)
@@ -210,7 +211,7 @@ def execute_line(line):
         return
 
     if img_path == "" and get_or_else(elements, 2, "") == "":
-        raise_value_error_and_generate_command("filepath and width both are null.")
+        elements[2] = "2080"
     width_str = get_or_else(elements, 2, "long")
     if img_path == "":
         try:
@@ -239,14 +240,16 @@ def execute_line(line):
     mkdir("output")
     if img_path == "":
         if output_name == "":
-            output_name = "white_comment" + str(time.time()) + ".jpg"
+            output_name = "white_comment_" + hashlib.md5(comment.encode()).hexdigest() + ".jpg"
         elif comment == "":
             raise_value_error_and_generate_command("filepath and comment both are null.")
         new_img = create_horizontal_text_img(comment, create_font_according_img(img), width)
         new_width, new_height = new_img.size
-        new_img = add_margin(new_img, new_width + margin * 2, new_height + margin * 2, "center", "center")
+        new_img = add_margin(new_img, new_width + int(MARGIN_CAPTION_RATE * new_width) * 2, new_height + int(MARGIN_CAPTION_RATE * new_width) * 2, "center", "center")
         new_width, new_height = new_img.size
         new_img = add_margin(new_img, new_width, new_width, "center", "top")
+        if new_width < new_height:
+            print("CAUTION: There are too many characters in the comment.\n")
     elif comment != "":
         img_long, img_short = max(img.size), min(img.size)
         if width != img_long or height != img_long:
@@ -267,15 +270,13 @@ def execute_line(line):
             text_width, text_height = text_img.size
             text_img = add_margin(text_img, text_width + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), text_height, "right", "center")
             text_img = add_margin(text_img, text_width + margin_caption, text_height + margin_caption * 2, "left", "center")
-        else:
-            raise_value_error_and_generate_command("width and height of source image are same. There is no margin.")
 
         text_long, text_short = max(text_img.size), min(text_img.size)
         if img_long < img_short + text_short:
             rate = (img_long - text_short) / img_short
             if rate < MIN_IMG_RATE:
                 rate = MIN_IMG_RATE
-                print("CAUTION: There are too many characters in the comment.")
+                print("CAUTION: There are too many characters in the comment.\n")
             img = img_shrink(img, rate)
             img_width, img_height = img.size
         if img_height <= img_width:
