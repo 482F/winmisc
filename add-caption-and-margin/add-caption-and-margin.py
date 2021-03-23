@@ -227,7 +227,13 @@ def execute_line(line):
     anchor_x = get_or_else(elements, 4, "left")
     anchor_y = get_or_else(elements, 5, "top")
     margin = replace_and_calc_text(get_or_else(elements, 6, "long*0.01"), img)
-    comment = get_or_else(elements, 7, "")
+    comment = ""
+    if 7 < len(elements):
+        comment = ",".join(elements[7:])
+    if comment[0] == '"':
+        comment = comment[1:]
+    if comment[-1] == '"':
+        comment = comment[:-1]
 
     mkdir("output")
     if img_path == "":
