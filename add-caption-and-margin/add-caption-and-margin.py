@@ -238,6 +238,8 @@ def execute_line(line):
         new_img = create_horizontal_text_img(comment, create_font_according_img(img), width)
         new_width, new_height = new_img.size
         new_img = add_margin(new_img, new_width + margin * 2, new_height + margin * 2, "center", "center")
+        new_width, new_height = new_img.size
+        new_img = add_margin(new_img, new_width, new_width, "center", "top")
     elif comment != "":
         img_long, img_short = max(img.size), min(img.size)
         if width != img_long or height != img_long:
