@@ -276,18 +276,23 @@ def execute_line(line):
 # text の long と short が実態に即さない場合があるが、img の短辺が横であったら、text の short も (実際に横が短辺でなくても) 横とするため
             text_long, text_short = text_img.size
         elif img_width < img_height:
-            if anchor_x != "left":
-                raise_value_error_and_generate_command("anchor_x must be \"left\" when source image is portrait.")
+            if anchor_x not in ["left", "right"]:
+                raise_value_error_and_generate_command("anchor_x must be \"left\" or \"right\" when source image is portrait.")
+            if anchor_x == "right":
+                reverse_anchor_x = "left"
+            elif anchor_x == "left":
+                reverse_anchor_x = "right"
             margin_caption = int(img_long * MARGIN_CAPTION_RATE)
             min_width = img_long - img_short - margin_caption
             if min_width < img_long * MIN_MIN_WIDTH_RATE:
                 min_width = round(img_long * MIN_MIN_WIDTH_RATE)
             text_img = create_vertical_text_img(comment, create_font_according_img(img), height- margin_caption * 2, min_width)
             text_width, text_height = text_img.size
-            text_img = add_margin(text_img, text_width + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), text_height, "right", "center")
-            text_img = add_margin(text_img, text_width + margin_caption, text_height + margin_caption * 2, "left", "center")
+            text_img = add_margin(text_img, text_width + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), text_height, reverse_anchor_x, "center")
+            text_img = add_margin(text_img, text_width + margin_caption, text_height + margin_caption * 2, anchor_x, "center")
 # text の long と short が実態に即さない場合があるが、img の短辺が横であったら、text の short も (実際に横が短辺でなくても) 横とするため
             text_short, text_long = text_img.size
+            text_width, text_height = text_img.size
 
         if img_long < img_short + text_short:
             rate = (img_long - text_short) / img_short
