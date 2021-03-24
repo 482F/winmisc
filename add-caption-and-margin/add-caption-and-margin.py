@@ -243,7 +243,7 @@ def execute_line(line):
         raise_value_error_and_generate_command("footer_anchor_x must be \"right\" or \"left\" when footer is not null.")
 
     if img_path == "" and get_or_else(elements, elements_index_dict["width"], "") == "":
-        elements[3] = "2800"
+        elements[elements_index_dict["width"]] = "2800"
     width_str = get_or_else(elements, elements_index_dict["width"], "long")
     if img_path == "":
         try:
