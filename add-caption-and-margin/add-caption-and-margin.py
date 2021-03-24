@@ -18,6 +18,7 @@ MIN_IMG_RATE = 0.1
 MARGIN_CAPTION_RATE = 0.1
 MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE = 0.03
 FONT_SIZE_RATE = 0.028
+MIN_MIN_WIDTH_RATE = 0.28
 
 def calc_text_size(text, font):
     """text の文字列を font でレンダリングした際のサイズを調べる関数
@@ -150,7 +151,7 @@ def create_font_according_img(img):
     """img に基づいてフォントの大きさを決め、Font を返す関数
     """
     long_side = max(img.size)
-    return ImageFont.truetype(FONT_NAME, int(long_side * FONT_SIZE_RATE))
+    return ImageFont.truetype(FONT_NAME, round(long_side * FONT_SIZE_RATE))
 
 def calc_text(text):
     """文字列を数式として計算する関数
@@ -205,7 +206,13 @@ def execute_line(line):
     img_path = get_or_else(elements, 0, "")
     output_name = get_or_else(elements, 1, img_path)
 
-    print("\033[1A\033[2Kprocessing: {} -> {} ({}/{})".format(img_path, output_name, csv_index + 1, NoL))
+    print_img_path = img_path
+    if 10 < len(img_path):
+        print_img_path = img_path[:10] + "..."
+    print_output_name = output_name
+    if 10 < len(output_name):
+        print_output_name = output_name[:10] + "..."
+    print("\033[1A\033[2Kprocessing: {} -> {} ({}/{})".format(print_img_path, print_output_name, csv_index + 1, NoL))
 
     if len(line) < 1 or line[0]  in ["#", '"']:
         return
@@ -244,13 +251,13 @@ def execute_line(line):
             output_name = "white_comment_" + hashlib.md5(comment.encode()).hexdigest() + ".jpg"
         elif comment == "":
             raise_value_error_and_generate_command("filepath and comment both are null.")
-        new_img = create_horizontal_text_img(comment, create_font_according_img(img), width - int(MARGIN_CAPTION_RATE * width))
+        new_img = create_horizontal_text_img(comment, create_font_according_img(img), width - int(MARGIN_CAPTION_RATE * width) * 2)
         new_width, new_height = new_img.size
         new_img = add_margin(new_img, new_width + int(MARGIN_CAPTION_RATE * new_width) * 2, new_height + int(MARGIN_CAPTION_RATE * new_width) * 2, "center", "center")
-        new_width, new_height = new_img.size
-        new_img = add_margin(new_img, new_width, new_width, "center", "top")
         if new_width < new_height:
             print("CAUTION: There are too many characters in the comment.\n")
+        new_width, new_height = new_img.size
+        new_img = add_margin(new_img, new_width, new_width, "center", "top")
     elif comment != "":
         img_long, img_short = max(img.size), min(img.size)
         if width != img_long or height != img_long:
@@ -263,16 +270,22 @@ def execute_line(line):
             text_width, text_height = text_img.size
             text_img = add_margin(text_img, text_width, text_height + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), "center", "bottom")
             text_img = add_margin(text_img, text_width + margin_caption * 2, text_height + margin_caption, "center", "top")
+# text の long と short が実態に即さない場合があるが、img の短辺が横であったら、text の short も (実際に横が短辺でなくても) 横とするため
+            text_long, text_short = text_img.size
         elif img_width < img_height:
             if anchor_x != "left":
                 raise_value_error_and_generate_command("anchor_x must be \"left\" when source image is portrait.")
             margin_caption = int(img_long * MARGIN_CAPTION_RATE)
-            text_img = create_vertical_text_img(comment, create_font_according_img(img), height- margin_caption * 2, img_long - img_short - margin_caption)
+            min_width = img_long - img_short - margin_caption
+            if min_width < img_long * MIN_MIN_WIDTH_RATE:
+                min_width = round(img_long * MIN_MIN_WIDTH_RATE)
+            text_img = create_vertical_text_img(comment, create_font_according_img(img), height- margin_caption * 2, min_width)
             text_width, text_height = text_img.size
             text_img = add_margin(text_img, text_width + int(img_long * MARGIN_BETWEEN_PICTURE_AND_CAPTION_RATE), text_height, "right", "center")
             text_img = add_margin(text_img, text_width + margin_caption, text_height + margin_caption * 2, "left", "center")
+# text の long と short が実態に即さない場合があるが、img の短辺が横であったら、text の short も (実際に横が短辺でなくても) 横とするため
+            text_short, text_width = text_img.size
 
-        text_long, text_short = max(text_img.size), min(text_img.size)
         if img_long < img_short + text_short:
             rate = (img_long - text_short) / img_short
             if rate < MIN_IMG_RATE:
