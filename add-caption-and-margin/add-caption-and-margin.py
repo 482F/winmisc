@@ -232,10 +232,11 @@ def execute_line(line):
     comment = ""
     if 7 < len(elements):
         comment = ",".join(elements[7:])
-    if comment[0] == '"':
-        comment = comment[1:]
-    if comment[-1] == '"':
-        comment = comment[:-1]
+    if 1 < len(comment):
+        if comment[0] == '"':
+            comment = comment[1:]
+        if comment[-1] == '"':
+            comment = comment[:-1]
 
     mkdir("output")
     if img_path == "":
