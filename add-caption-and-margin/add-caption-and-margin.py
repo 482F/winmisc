@@ -264,6 +264,7 @@ def execute_line(line):
             comment = comment[:-1]
 
     mkdir("output")
+    img_long, img_short = max(img.size), min(img.size)
     if img_path == "":
         if output_name == "":
             output_name = "white_comment_" + hashlib.md5(comment.encode()).hexdigest() + ".jpg"
@@ -277,7 +278,6 @@ def execute_line(line):
         new_width, new_height = new_img.size
         new_img = add_margin(new_img, new_width, new_width, "center", "top")
     elif comment != "":
-        img_long, img_short = max(img.size), min(img.size)
         if width != img_long or height != img_long:
             raise_value_error_and_generate_command("width and height must be \"long\" when comment is not null.")
         elif img_height <= img_width:
