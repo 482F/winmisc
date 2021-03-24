@@ -6,9 +6,9 @@ python3 add-caption-and-margin.py csv_path.csv [start_index]
 
 ### csv の書式
 
-|sharp|filepath|outputname|width|height|anchor_x|anchor_y|margin|comment|
-|:----|:-------|:---------|:----|:-----|:-------|:-------|:-----|:------|
-||default_value.jpg||long|long|left|top|long*0.01||
+|sharp|filepath|outputname|footer|width|height|anchor_x|anchor_y|margin|comment|
+|:----|:-------|:---------|:-----|:----|:-----|:-------|:-------|:-----|:------|
+||default_value.jpg|||long|long|left|top|long*0.01||
 
 - sharp
   - `#` を入れるとその行は飛ばされる
@@ -17,6 +17,10 @@ python3 add-caption-and-margin.py csv_path.csv [start_index]
 - outputname
   - 出力名
   - `実行したディレクトリ¥output¥outputname` に出力される
+- footer
+  - ページ下部に表示される文字列
+  - ページ番号を入れたりする
+  - anchor_x で指定したのと逆側に表示される
 - width, height
   - 加工後の横幅、縦幅
   - 加工前より大きい値ならば余白が追加され、小さい値ならば切り取られる
