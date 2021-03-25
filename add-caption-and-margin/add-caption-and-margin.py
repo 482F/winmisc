@@ -346,8 +346,6 @@ def execute_line(line):
 
     new_img_width, new_img_height = new_img.size
     if footer != "" and ((not 0.99 < img_height / img_width < 1.01) or comment != ""):
-        1.02 < 1000/width
-        width < 980.39
         dummy_long = max(new_img.size)
         dummy_img = Image.new("RGB", (round(dummy_long * (FOOTER_FONT_SIZE_RATE / FONT_SIZE_RATE)), 1), BG_COLOR)
         footer_font = create_font_according_img(dummy_img)
