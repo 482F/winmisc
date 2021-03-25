@@ -101,7 +101,7 @@ def get_or_else(target_list, index, default_value, invalid_values=[None, ""]):
 def file_read(file_path):
     """file_path のファイルをテキストとして読み込んで内容を返す
     """
-    with open(file_path) as f:
+    with open(file_path, encoding = "utf-16") as f:
         return_value = f.read()
     return return_value
 
@@ -204,12 +204,12 @@ def mkdir(path):
 def raise_value_error_and_generate_command(error_text):
     raise ValueError(error_text + "\n"
         + "fix above error and execute below command\n"
-        + "COMMAND: python3 \"" + str(pathlib.Path(__file__).resolve()) + "\" \"" + str(pathlib.Path(csv_path).resolve()) + "\" " + str(csv_index + 1)
+        + "COMMAND: python3 \"" + str(pathlib.Path(__file__).resolve()) + "\" \"" + str(pathlib.Path(separated_values_path).resolve()) + "\" " + str(separated_values_index + 1)
     )
     return
 
 def execute_line(line):
-    """csv を一行ずつここに読み込ませて、キャプションとマージンを追加する
+    """csv, tsv を一行ずつここに読み込ませて、キャプションとマージンを追加する
     """
     elements_index_dict = {}
     elements_index_dict["filepath"] = 1
@@ -222,7 +222,7 @@ def execute_line(line):
     elements_index_dict["anchor_y"] = 8
     elements_index_dict["margin"] = 9
     elements_index_dict["comment"] = 10
-    elements = line.split(",")
+    elements = line.split(separater)
     img_path = get_or_else(elements, elements_index_dict["filepath"], "")
     output_name = get_or_else(elements, elements_index_dict["outputname"], img_path)
 
@@ -232,7 +232,7 @@ def execute_line(line):
     print_output_name = output_name
     if 10 < len(output_name):
         print_output_name = output_name[:10] + "..."
-    print("\033[1A\033[2Kprocessing: {} -> {} ({}/{})".format(print_img_path, print_output_name, csv_index + 1, NoL))
+    print("\033[1A\033[2Kprocessing: {} -> {} ({}/{})".format(print_img_path, print_output_name, separated_values_index + 1, NoL))
 
     if len(line) < 1 or line[0]  in ["#", '"']:
         return
@@ -363,12 +363,19 @@ def execute_line(line):
     return
 
 args = sys.argv[1:]
-csv_path = args[0]
+separated_values_path = args[0]
 start_index = int(get_or_else(args, 1, 1)) - 1
-csv_body = file_read(csv_path)
-lines = csv_body.split("\n")[start_index:]
+separated_values_body = file_read(separated_values_path)
+separated_values_index = 0
+if separated_values_path[-3:] == "csv":
+    separater = ","
+elif separated_values_path[-3:] == "tsv":
+    separater = "	"
+else:
+    raise_value_error_and_generate_command("Extension of source text file must be .csv or .tsv.")
+lines = separated_values_body.split("\n")[start_index:]
 NoL = len(lines) + start_index
 print()
-for csv_index, line in enumerate(lines):
-    csv_index += start_index
+for separated_values_index, line in enumerate(lines):
+    separated_values_index += start_index
     execute_line(line)
