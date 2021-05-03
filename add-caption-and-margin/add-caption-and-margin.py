@@ -326,11 +326,12 @@ def execute_line(line):
                 rate = MIN_IMG_RATE
                 print("CAUTION: There are too many characters in the comment.\n")
             img = img_shrink(img, rate)
+            orig_img_width, orig_img_height = img_width, img_height
             img_width, img_height = img.size
-        if img_height <= img_width:
+        if orig_img_height <= orig_img_width:
             img_paste_pos = ((width - img_width) // 2, 0)
             text_img_paste_pos = (0, img_height)
-        elif img_width < img_height:
+        elif orig_img_width < orig_img_height:
             if anchor_x == "left":
                 img_paste_pos = (0, (height - img_height) // 2)
                 text_img_paste_pos = (img_width, 0)
