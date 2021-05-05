@@ -1,1 +1,1 @@
-wt -p "Command Prompt"
+wt -p "CommandPrompt"
