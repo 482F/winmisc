@@ -320,6 +320,7 @@ def execute_line(line):
             text_short, text_long = text_img.size
             text_width, text_height = text_img.size
 
+        orig_img_width, orig_img_height = img_width, img_height
         if img_long < img_short + text_short:
             rate = (img_long - text_short) / img_short
             if rate < MIN_IMG_RATE:
