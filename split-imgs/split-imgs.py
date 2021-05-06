@@ -74,11 +74,11 @@ def execute_line(line):
         left_suffix = "s"
         right_suffix = "c"
         left_lower_right = (img_height, img_height)
-        right_upper_left = (img_height + 1, 0)
+        right_upper_left = (img_height, 0)
     else:
         left_suffix = "c"
         right_suffix = "s"
-        left_lower_right = (img_width - img_height - 1, img_height)
+        left_lower_right = (img_width - img_height, img_height)
         right_upper_left = (img_width - img_height , 0)
 
     left_name = img_name + "_l_" + left_suffix + ".jpg"
