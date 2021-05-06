@@ -84,7 +84,7 @@ def execute_line(line):
     left_name = img_name + "_l_" + left_suffix + ".jpg"
     right_name = img_name + "_r_" + right_suffix + ".jpg"
 
-    mkdir("output")
+    mkdir("split-output")
 
     trim_img(img, left_upper_left, left_lower_right).save("output\\" + left_name)
     trim_img(img, right_upper_left, right_lower_right).save("output\\" + right_name)
