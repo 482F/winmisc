@@ -1,0 +1,59 @@
+{
+  "editor.fontFamily": "cica, Consolas, 'Courier New', monospace",
+  // 末尾の半角スペースを表示
+  "editor.renderWhitespace": "trailing",
+  // 画面内で折り返し
+  "editor.wordWrap": "on",
+  "editor.tabSize": 2,
+  // 複数行選択している場合は検索範囲をそこに限る
+  "editor.find.autoFindInSelection": "multiline",
+  // 選択している場所を検索条件にしない
+  "editor.find.seedSearchStringFromSelection": false,
+  // インデントで折り畳みができるように
+  "editor.foldingStrategy": "indentation",
+  // 拡張機能のおすすめを非表示
+  "extensions.ignoreRecommendations": true,
+  // vim の検索でハイライトを有効化
+  "vim.hlsearch": true,
+  // ~/vscode.vimrc を読み込むように
+  "vim.vimrc.enable": true,
+  "vim.vimrc.path": "~/vscode.vimrc",
+  // vim のクリップボードとシステムクリップボードを同期
+  "vim.useSystemClipboard": true,
+  "vim.leader": "space",
+  // easymotion を有効化
+  "vim.easymotion": true,
+  // easymotion で全てのアルファベットキーを使えるように
+  "vim.easymotionKeys": "qwertyuiopasdfghjklzxcvbnm",
+  // 信頼できないファイルを開けるように
+  "security.workspace.trust.untrustedFiles": "open",
+  // 改行コードを LF
+  "files.eol": "\n",
+  "window.zoomLevel": 2,
+  // 無題のファイルを開いて始まるように
+  "workbench.startupEditor": "newUntitledFile",
+  // パンくずリストを有効化
+  "breadcrumbs.enabled": true,
+  // ターミナルが開いているときに VSCode を閉じると警告が出るように
+  "terminal.integrated.confirmOnExit": true,
+  // ターミナルの文字列を選択するとコピーできるように
+  "terminal.integrated.copyOnSelection": true,
+  // デフォルトのターミナルを WSL に
+  "terminal.integrated.defaultProfile.windows": "Ubuntu (WSL)",
+  // git rebase でテキストエディタを開くように
+  "workbench.editorAssociations": {
+    "git-rebase-todo": "default"
+  },
+  // カラーテーマを設定
+  "workbench.colorTheme": "Dank Neon Light",
+  // カラーテーマを一部変更
+  "workbench.colorCustomizations": {
+    "[Dank Neon Light]": {
+      "quickInputList.focusBackground": "#444444",
+      "list.activeSelectionBackground": "#444444",
+      "editor.selectionBackground": "#C1CCD6"
+    }
+  },
+  "vim.easymotionMarkerForegroundColorTwoCharFirst": "#ff0000",
+  "vim.easymotionMarkerForegroundColorTwoCharSecond": "#ff0000",
+}

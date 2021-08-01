@@ -1,0 +1,370 @@
+// 既定値を上書きするには、このファイル内にキー バインドを挿入します
+[
+  // ctrl + (shift +) tab でエディタのタブ移動
+  {
+    "key": "ctrl+tab",
+    "command": "workbench.action.nextEditor"
+  },
+  {
+    "key": "ctrl+shift+tab",
+    "command": "workbench.action.previousEditor",
+  },
+
+  // ctrl + f を検索とフォーマットのプレフィックスに
+  {
+    "key": "ctrl+f",
+    "command": "-actions.find",
+    "when": "editorFocus || editorIsOpen"
+  },
+  {
+    "key": "ctrl+f",
+    "command": "-extension.vim_ctrl+f",
+    "when": "editorTextFocus && vim.active && vim.use<C-f> && !inDebugRepl && vim.mode != 'Insert'"
+  },
+  // prettier でフォーマット
+  {
+    "key": "ctrl+f m",
+    "command": "prettier.forceFormatDocument"
+  },
+  // 検索窓を開く
+  {
+    "key": "ctrl+f f",
+    "command": "editor.action.startFindReplaceAction",
+    "when": "editorFocus || editorIsOpen"
+  },
+  // 検索結果に関してのマルチカーソル機能
+  // a でマルチカーソル、n でスキップ
+  {
+    "key": "ctrl+f a",
+    "command": "editor.action.addSelectionToNextFindMatch",
+    "when": "editorFocus"
+  },
+  {
+    "key": "ctrl+f n",
+    "command": "editor.action.moveSelectionToNextFindMatch",
+    "when": "editorFocus"
+  },
+
+  // terminal で ctrl + p を使いたいのでアンバインド
+  {
+    "key": "ctrl+p",
+    "command": "workbench.action.quickOpen",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "ctrl+p",
+    "command": "-workbench.action.quickOpen"
+  },
+
+  // ctrl + @ をターミナル関連のプレフィックスに
+  {
+    "key": "ctrl+oem_3",
+    "command": "-workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
+  },
+  // n or p で前後のターミナルへ移動
+  {
+    "key": "ctrl+oem_3 n",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "ctrl+oem_3 p",
+    "command": "workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus && terminalProcessSupported"
+  },
+  // f でフルスクリーンの切り替え
+  {
+    "key": "ctrl+oem_3 f",
+    "command": "workbench.action.toggleEditorVisibility"
+  },
+  // d で非表示
+  {
+    "key": "ctrl+oem_3 d",
+    "command": "workbench.action.terminal.toggleTerminal"
+  },
+  // c で新しいターミナルを現在のファイルのディレクトリで開く
+  {
+    "key": "ctrl+oem_3 c",
+    "command": "workbench.action.terminal.newWithCwd",
+    "args": {
+      "cwd": "${fileDirname}"
+    }
+  },
+  // , でリネーム
+  {
+    "key": "ctrl+oem_3 oem_comma",
+    "command": "workbench.action.terminal.rename"
+  },
+  // e でエディタ領域に移動 (エディタのタブ化)
+  {
+    "key": "ctrl+oem_3 e",
+    "command": "workbench.action.terminal.moveToEditor"
+  },
+  // @ でエディタとターミナルのフォーカスを切り替え
+  {
+    "key": "ctrl+oem_3 oem_3",
+    "command": "workbench.action.terminal.focus",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "ctrl+oem_3 oem_3",
+    "command": "workbench.action.focusFirstEditorGroup",
+    "when": "terminalFocus"
+  },
+
+  // サイドバーの非表示
+  {
+    "key": "ctrl+alt+oem_4",
+    "command": "workbench.action.toggleSidebarVisibility"
+  },
+
+  // ctrl + k をブックマークとキーバインドのプレフィックスに
+  {
+    "key": "ctrl+k",
+    "command": "-extension.vim_ctrl+k",
+    "when": "editorTextFocus && vim.active && vim.use<C-k> && !inDebugRepl"
+  },
+  {
+    "key": "ctrl+k s",
+    "command": "-saveAll"
+  },
+  {
+    "key": "ctrl+k d",
+    "command": "-workbench.files.action.compareWithSaved"
+  },
+  {
+    "key": "ctrl+k ctrl+n",
+    "command": "-git.unstageSelectedRanges",
+    "when": "isInDiffEditor"
+  },
+  {
+    "key": "ctrl+k ctrl+d",
+    "command": "-editor.action.moveSelectionToNextFindMatch",
+    "when": "editorFocus"
+  },
+  {
+    "key": "ctrl+k v",
+    "command": "-markdown.showPreviewToSide",
+    "when": "!notebookEditorFocused && editorLangId == 'markdown'"
+  },
+  {
+    "key": "ctrl+k ctrl+s",
+    "command": "-workbench.action.openGlobalKeybindings"
+  },
+  // a でブックマークの追加
+  {
+    "key": "ctrl+k a",
+    "command": "bookmarks.toggleLabeled"
+  },
+  // d でブックマークの削除
+  {
+    "key": "ctrl+k d",
+    "command": "bookmarks.clear"
+  },
+  // l でブックマーク一覧
+  {
+    "key": "ctrl+k l",
+    "command": "bookmarks.listFromAllFiles"
+  },
+  // j でキーバインドの JSON を開く
+  {
+    "key": "ctrl+k j",
+    "command": "workbench.action.openGlobalKeybindingsFile"
+  },
+  // s でキーバインドの設定を開く
+  {
+    "key": "ctrl+k s",
+    "command": "workbench.action.openGlobalKeybindings"
+  },
+
+  // VSCode のマルチカーソル機能のために vim のバインドを削除
+  {
+    "key": "ctrl+alt+down",
+    "command": "-extension.vim_cmd+alt+down",
+    "when": "editorTextFocus && vim.active && !inDebugRepl"
+  },
+  {
+    "key": "ctrl+alt+up",
+    "command": "-extension.vim_cmd+alt+up",
+    "when": "editorTextFocus && vim.active && !inDebugRepl"
+  },
+  // vim の移動でもマルチカーソルができるように
+  {
+    "key": "ctrl+alt+j",
+    "command": "-bookmarks.jumpToPrevious",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+alt+k",
+    "command": "-bookmarks.toggle",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+alt+j",
+    "command": "editor.action.insertCursorBelow",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+alt+k",
+    "command": "editor.action.insertCursorAbove",
+    "when": "editorTextFocus"
+  },
+
+  // 検索窓で Enter を押すとエディタにフォーカスするように
+  {
+    "key": "enter",
+    "command": "workbench.action.focusFirstEditorGroup",
+    "when": "editorFocus && findInputFocussed"
+  },
+  {
+    "key": "enter",
+    "command": "-editor.action.nextMatchFindAction",
+    "when": "editorFocus && findInputFocussed"
+  },
+
+  // ctrl + g を gitlens 関連のプレフィックスに
+  // h で history
+  {
+    "key": "ctrl+g h",
+    "command": "git.viewHistory"
+  },
+  // d で diff
+  {
+    "key": "ctrl+g d",
+    "command": "git.openChange"
+  },
+
+  // ctrl + m を Markdown 関連のプレフィックスに
+  {
+    "key": "ctrl+m",
+    "command": "-extension.vim_ctrl+m",
+    "when": "editorTextFocus && vim.active && vim.use<C-m> && !inDebugRepl || vim.active && vim.use<C-m> && !inDebugRepl && vim.mode == 'CommandlineInProgress' || vim.active && vim.use<C-m> && !inDebugRepl && vim.mode == 'SearchInProgressMode'"
+  },
+  {
+    "key": "ctrl+m",
+    "command": "-editor.action.toggleTabFocusMode"
+  },
+  // p で Markdown のプレビュー
+  {
+    "key": "ctrl+m p",
+    "command": "markdown.showPreviewToSide",
+    "when": "!notebookEditorFocused"
+  },
+
+  // ctrl + n を通知と新規ファイル作成のプレフィックスに
+  {
+    "key": "ctrl+n",
+    "command": "-workbench.action.files.newUntitledFile"
+  },
+  // f で通知にフォーカス
+  {
+    "key": "ctrl+n f",
+    "command": "notifications.focusToasts",
+    "when": "!terminalFocus"
+  },
+  // n で新規ファイル作成
+  {
+    "key": "ctrl+n n",
+    "command": "workbench.action.files.newUntitledFile",
+    "when": "!terminalFocus"
+  },
+
+  // 通知関連のキーバインド
+  // g g で最初の通知に
+  {
+    "key": "g g",
+    "command": "notifications.focusFirstToast",
+    "when": "notificationFocus && notificationToastsVisible"
+  },
+  // shift + g で最後の通知に
+  {
+    "key": "shift+g",
+    "command": "notifications.focusLastToast",
+    "when": "notificationFocus && notificationToastsVisible"
+  },
+  // j で下の通知に
+  {
+    "key": "j",
+    "command": "notifications.focusNextToast",
+    "when": "notificationFocus && notificationToastsVisible"
+  },
+  // k で上の通知に
+  {
+    "key": "k",
+    "command": "notifications.focusPreviousToast",
+    "when": "notificationFocus && notificationToastsVisible"
+  },
+  // h で通知を閉じる
+  {
+    "key": "h",
+    "command": "notification.collapse",
+    "when": "notificationFocus"
+  },
+  // l で通知を開く
+  {
+    "key": "l",
+    "command": "notification.expand",
+    "when": "notificationFocus"
+  },
+  // d d or x で通知を削除
+  {
+    "key": "d d",
+    "command": "notification.clear",
+    "when": "notificationFocus"
+  },
+  {
+    "key": "x",
+    "command": "notification.clear",
+    "when": "notificationFocus"
+  },
+
+  // shift + s < or > でエディタのタブの位置を移動
+  {
+    "key": "shift+s shift+oem_comma",
+    "command": "moveActiveEditor",
+    "when": "vim.mode == 'normal'",
+    "args": {
+      "to": "left"
+    }
+  },
+  {
+    "key": "shift+s shift+oem_period",
+    "command": "moveActiveEditor",
+    "when": "vim.mode == 'normal'",
+    "args": {
+      "to": "right"
+    }
+  },
+
+  // ctrl + s を設定に関するプレフィックスに
+  // j で設定の JSON を開く
+  {
+    "key": "ctrl+s j",
+    "command": "workbench.action.openSettingsJson"
+  },
+  // s で設定を開く
+  {
+    "key": "ctrl+s s",
+    "command": "workbench.action.openSettings2"
+  },
+
+  // コンソールで ctrl + j が使えなくなるのでアンバインド
+  {
+    "key": "ctrl+j",
+    "command": "-workbench.action.togglePanel"
+  },
+
+  // ctrl + l をファイルの設定のプレフィックスに
+  // e で改行コードを変更
+  {
+    "key": "ctrl+l e",
+    "command": "workbench.action.editor.changeEOL"
+  },
+  // l で言語を変更
+  {
+    "key": "ctrl+l l",
+    "command": "workbench.action.editor.changeLanguageMode",
+    "when": "!notebookEditorFocused"
+  },
+]
