@@ -7,7 +7,7 @@
   },
   {
     "key": "ctrl+shift+tab",
-    "command": "workbench.action.previousEditor",
+    "command": "workbench.action.previousEditor"
   },
 
   // ctrl + f を検索とフォーマットのプレフィックスに
@@ -24,6 +24,10 @@
   // prettier でフォーマット
   {
     "key": "ctrl+f m",
+    "command": "editor.action.formatDocument"
+  },
+  {
+    "key": "ctrl+f ctrl+m",
     "command": "prettier.forceFormatDocument"
   },
   // 検索窓を開く
@@ -46,11 +50,6 @@
   },
 
   // terminal で ctrl + p を使いたいのでアンバインド
-  {
-    "key": "ctrl+p",
-    "command": "workbench.action.quickOpen",
-    "when": "!terminalFocus"
-  },
   {
     "key": "ctrl+p",
     "command": "-workbench.action.quickOpen"
@@ -367,4 +366,90 @@
     "command": "workbench.action.editor.changeLanguageMode",
     "when": "!notebookEditorFocused"
   },
+  {
+    "key": "ctrl+w w",
+    "command": "workbench.action.compareEditor.focusOtherSide"
+  },
+  {
+    "key": "ctrl+w c",
+    "command": "workbench.action.closeActiveEditor"
+  },
+  // 間違って閉じることがあるのでアンバインド
+  {
+    "key": "ctrl+shift+w",
+    "command": "-workbench.action.closeWindow"
+  },
+  // ctrl + p と ctrl + n で候補を表示、選択できるように
+  {
+    "key": "ctrl+p",
+    "command": "editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+p",
+    "command": "-workbench.action.quickOpenNavigateNextInFilePicker",
+    "when": "inFilesPicker && inQuickOpen"
+  },
+  {
+    "key": "ctrl+n",
+    "command": "editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+p",
+    "command": "selectPrevSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+  },
+  {
+    "key": "ctrl+n",
+    "command": "selectNextSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+  },
+  {
+    "key": "ctrl+n",
+    "command": "-extension.vim_ctrl+n",
+    "when": "editorTextFocus && vim.active && vim.use<C-n> && !inDebugRepl || vim.active && vim.use<C-n> && !inDebugRepl && vim.mode == 'CommandlineInProgress' || vim.active && vim.use<C-n> && !inDebugRepl && vim.mode == 'SearchInProgressMode'"
+  },
+  // ctrl + m でコンフリクトの操作ができるように
+  {
+    "key": "ctrl+m oem_6",
+    "command": "merge-conflict.next"
+  },
+  {
+    "key": "ctrl+m oem_4",
+    "command": "merge-conflict.previous"
+  },
+  {
+    "key": "ctrl+m ctrl+shift+oem_comma",
+    "command": "merge-conflict.accept.all-current"
+  },
+  {
+    "key": "ctrl+m ctrl+shift+oem_period",
+    "command": "merge-conflict.accept.all-incoming"
+  },
+  {
+    "key": "ctrl+m shift+oem_comma",
+    "command": "merge-conflict.accept.current"
+  },
+  {
+    "key": "ctrl+m shift+oem_period",
+    "command": "merge-conflict.accept.incoming"
+  },
+  {
+    "key": "ctrl+m space",
+    "command": "merge-conflict.accept.selection"
+  },
+  // ctrl + s にスニペットの操作を割り当て
+  {
+    "key": "ctrl+s e",
+    "command": "workbench.action.openSnippets"
+  },
+  {
+    "key": "ctrl+s n",
+    "command": "editor.action.insertSnippet"
+  },
+  {
+    "key": "ctrl+s c",
+    "command": "extension.generateSnippet"
+  }
 ]

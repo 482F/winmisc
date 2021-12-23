@@ -3,12 +3,12 @@
   // 末尾の半角スペースを表示
   "editor.renderWhitespace": "trailing",
   // 画面内で折り返し
-  "editor.wordWrap": "on",
+  "editor.wordWrap": "off",
   "editor.tabSize": 2,
   // 複数行選択している場合は検索範囲をそこに限る
   "editor.find.autoFindInSelection": "multiline",
   // 選択している場所を検索条件にしない
-  "editor.find.seedSearchStringFromSelection": false,
+  "editor.find.seedSearchStringFromSelection": "never",
   // インデントで折り畳みができるように
   "editor.foldingStrategy": "indentation",
   // 拡張機能のおすすめを非表示
@@ -35,11 +35,18 @@
   // パンくずリストを有効化
   "breadcrumbs.enabled": true,
   // ターミナルが開いているときに VSCode を閉じると警告が出るように
-  "terminal.integrated.confirmOnExit": true,
+  "terminal.integrated.confirmOnExit": "always",
   // ターミナルの文字列を選択するとコピーできるように
   "terminal.integrated.copyOnSelection": true,
-  // デフォルトのターミナルを WSL に
-  "terminal.integrated.defaultProfile.windows": "Ubuntu (WSL)",
+  // ターミナルとして GitBash を定義
+  "terminal.integrated.profiles.windows": {
+    "GitBash": {
+      "path": ["C:\\Users\\ishikawa-r\\misc\\utls\\Git\\bin\\bash.exe"],
+      "args": []
+    }
+  },
+  // デフォルトのターミナルを GitBash に
+  "terminal.integrated.defaultProfile.windows": "GitBash",
   // git rebase でテキストエディタを開くように
   "workbench.editorAssociations": {
     "git-rebase-todo": "default"
@@ -51,9 +58,84 @@
     "[Dank Neon Light]": {
       "quickInputList.focusBackground": "#444444",
       "list.activeSelectionBackground": "#444444",
-      "editor.selectionBackground": "#C1CCD6"
+      "editor.selectionBackground": "#C1CCD6",
     }
   },
+  "editor.tokenColorCustomizations": {
+    "[Dank Neon Light]": {
+      "textMateRules": [
+        {
+          "scope": "invalid",
+          "settings": {
+            "foreground": "#ff0000",
+            "fontStyle": ""
+          }
+        }
+      ]
+    }
+  },
+  // タブのサイズを小さく
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.editor.pinnedTabSizing": "compact",
+  // easymotion の表示色を変更
   "vim.easymotionMarkerForegroundColorTwoCharFirst": "#ff0000",
   "vim.easymotionMarkerForegroundColorTwoCharSecond": "#ff0000",
+  // かっこの色を制御する拡張機能の色を変更
+  "bracket-pair-colorizer-2.colors": ["#BDBD00", "Orchid", "#00BDBD"],
+  // アップデート時にリリースノートを表示しないように
+  "update.showReleaseNotes": false,
+  // D&D で文字を移動してしまうのを抑制
+  "editor.dragAndDrop": false,
+  // サジェスト関連の設定を追加
+  "editor.quickSuggestions": false,
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  // .vue ファイルでインテリセンスが効くように
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "vue",
+    "vue": "html"
+  },
+  // all autocomplete で現在開いているファイルのみ候補に表示するように
+  "AllAutocomplete.showOpenDocuments": false,
+  // C# の参照数を非表示に
+  "csharp.referencesCodeLens.enabled": false,
+  // prettier のデフォルト設定を定義
+  "prettier.tabWidth": 2,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.semi": false,
+  "prettier.endOfLine": "lf",
+  "prettier.quoteProps": "consistent",
+  // font awesome のプレビューを .vue ファイルでもできるように
+  "fontAwesomeAutocomplete.patterns": ["**/*.html", "**/*.vue"],
+  // css で @apply 系を警告表示しないように
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  // eslint で no-console を警告表示しないように
+  "eslint.options": {
+    "rules": {
+      "no-console": "off"
+    }
+  },
+  // フォーマッターを設定
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "git.ignoreMissingGitWarning": true,
+  "remote.SSH.remotePlatform": {
+    "192.168.11.9": "linux"
+  },
+  "bracketPairColorizer.depreciation-notice": false
 }

@@ -1,0 +1,63 @@
+{
+	"arrayToObj": {
+		"prefix": "arrayToObj",
+		"body": [
+			"$1.map((value) => ({[value.$2]: value}))",
+			"  .reduce((all, part) => ({...all, ...part}), {})"
+		]
+	},
+	"sleep": {
+		"prefix": "sleep",
+		"body": [
+			"await new Promise((resolve) => setTimeout(resolve, ${1:100}))"
+		]
+	},
+	"r": {
+		"prefix": "r",
+		"body": [
+			"const r = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a"
+		]
+	},
+	"rp": {
+		"prefix": "rp",
+		"body": [
+			"const rp = (arr) => arr[r(0, arr.length - 1)]"
+		]
+	},
+	"rs": {
+		"prefix": "rs",
+		"body": [
+			"const rs = () => String.fromCharCode(r(32, 126))"
+		]
+	},
+	"repeat": {
+		"prefix": "repeat",
+		"body": "const repeat = (func, num) => new Array(num).fill(0).map(func)"
+	},
+	"rss": {
+		"prefix": "rss",
+		"body": [
+			"const rss = (num) => repeat(rs, num).join('')"
+		]
+	},
+	"dateFactory": {
+		"prefix": "dateFactory",
+		"body": "const dateFactory = (function(){\n  let date = new Date(r(1100000000000, 1900000000000))\n  const pad = (num) => num.toString().padStart(2, '0')\n  return () => {\n    date = new Date(date.getTime() + r(1000000000, 5000000000))\n    const y = date.getFullYear()\n    const mo = pad(date.getMonth()+1)\n    const d = pad(date.getDate())\n    const h = pad(date.getHours())\n    const mi = pad(date.getMinutes())\n    return `${y}/${mo}/${d} ${h}:${mi}`\n  }\n})()",
+		"description": ""
+	},
+	"shuffle": {
+		"prefix": "shuffle",
+		"body": "const shuffle = (arr) => {\n  const result = []\n  arr\n    .map((v) => [Math.random(), v])\n    .sort()\n    .forEach((i) => (result[i[0]] = i[1]))\n  return result\n}",
+		"description": ""
+	},
+	"rc": {
+		"prefix": "rc",
+		"body": "const rc = () => {\n  const [R, G, B] = shuffle([160, r(160, 200), 200]).map((num) =>\n    num.toString(16)\n  )\n  return `#${R}${G}${B}`\n}",
+		"description": ""
+	},
+	"disable-comma-dangle": {
+		"prefix": "disable-comma-dangle",
+		"body": "/* eslint-disable comma-dangle */",
+		"description": ""
+	}
+}
