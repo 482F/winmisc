@@ -58,7 +58,7 @@
     "[Dank Neon Light]": {
       "quickInputList.focusBackground": "#444444",
       "list.activeSelectionBackground": "#444444",
-      "editor.selectionBackground": "#C1CCD6",
+      "editor.selectionBackground": "#C1CCD6"
     }
   },
   "editor.tokenColorCustomizations": {
