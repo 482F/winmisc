@@ -1,8 +1,9 @@
 DetectHiddenWindows true
+SetTitleMatchMode 3
 
-isInitial := true
-imePid := ''
-createWindowTitle := () => 'ahk_pid ' . imePid
+nimeWinTitle := 'nime'
+nimeHwnd := ''
+createCriteria := () => 'ahk_id ' . nimeHwnd
 
 class stream {
   static start(arr) {
@@ -49,22 +50,24 @@ class util {
 }
 
 launch() {
-  global imePid
+  global nimeHwnd
 
-  if (imePid !== '' && processExist(imePid)) {
+  if (nimeHwnd !== '' && winExist(createCriteria())) {
     return
   }
 
   cmd := util.array.join(
     [
-      ; 'wt', '-w', 'ime', 'new-tab', '-p', 'Ubuntu',
-      ; 'nvim',
-      'goneovim',
-      '-c',
-      '"lua (function()`n'
+      'wt',
+      '-w', nimeWinTitle,
+      '--pos', '16,16',
+      '--size', '84,12',
+      'new-tab',
+      '--title', nimeWinTitle,
+      'wsl', 'nvim', '-c', '"lua (function()`n'
       . "
         (
-          vim.keymap.set({ 'i', 'n', 'x' }, '<C-F12>', function()
+          vim.keymap.set({ 'i', 'n', 'x' }, '<F36>', function()
             vim.fn.setreg('*', vim.fn.join(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n'))
             vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
             vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
@@ -75,54 +78,57 @@ launch() {
             end
             vim.api.nvim_input('<Esc>i')
           end)
-          vim.api.nvim_input('i')
-          vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
+
+          vim.api.nvim_create_autocmd({ 'User' }, {
+            pattern = { 'DenopsPluginPost:skkeleton' },
             callback = function()
-              vim.fn.input('press Enter') -- 起動直後に resize とかを呼ぶと変なことになるので待つ
-              vim.cmd.GonvimResize('\'935x306\'')
-              vim.cmd.GonvimWinpos(16, 16)
+              vim.api.nvim_input('i')
               vim.fn['skkeleton#handle']('enable', {})
             end,
-            once = true
           })
         )"
       . '`nend)()"'
     ],
     ' '
   )
-  run(cmd, , , &imePid)
-  winTitle := createWindowTitle()
-  if (not winWait(winTitle, , 1) || not winWaitActive(winTitle, , 1)) {
+  run(cmd)
+
+  if (not winWait(nimeWinTitle, , 3)) {
     throw Error('launch failed')
   }
+  nimeHwnd := winGetId(nimeWinTitle)
 
-  winSetTransparent(200, winTitle)
+  winSetTransparent(200, createCriteria())
 }
 
+launch()
+
 !@:: {
-  global isInitial
-  global imePid
+  global nimeHwnd
+
+  isActive := winActive(createCriteria())
 
   launch()
 
-  if (not isInitial && winActive(createWindowTitle())) {
+  if (isActive) {
     send('^{F12}')
-    winHide(createWindowTitle())
+    winHide(createCriteria())
     send('!{Esc}')
   } else {
-    winShow(createWindowTitle())
-    winActivate(createWindowTitle())
+    winShow(createCriteria())
+    winActivate(createCriteria())
   }
 
-  isInitial := false
   return
 }
 
 oe(reason, code) {
-  if (not imePid) {
+  if (not nimeHwnd) {
     return
   }
-  processClose(imePid)
+  try {
+    winClose(createCriteria())
+  }
 }
 onExit(oe)
 
