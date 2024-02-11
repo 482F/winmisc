@@ -132,3 +132,6 @@ oe(reason, code) {
 }
 onExit(oe)
 
+; 全角半角キー
+vkF3::return
+vkF4::return
