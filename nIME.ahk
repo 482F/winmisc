@@ -67,23 +67,23 @@ launch() {
       'wsl', 'nvim', '-c', '"lua (function()`n'
       . "
         (
-          vim.keymap.set({ 'i', 'n', 'x' }, '<F36>', function()
-            vim.fn.setreg('*', vim.fn.join(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n'))
-            vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
-            vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
-            vim.fn['skkeleton#handle']('enable', {})
-
-            if vim.api.nvim_get_mode().mode == 'i' then
-              return
-            end
-            vim.api.nvim_input('<Esc>i')
-          end)
-
           vim.api.nvim_create_autocmd({ 'User' }, {
             pattern = { 'DenopsPluginPost:skkeleton' },
             callback = function()
               vim.api.nvim_input('i')
               vim.fn['skkeleton#handle']('enable', {})
+
+              vim.keymap.set({ 'i', 'n', 'x' }, '<F36>', function()
+                vim.fn.setreg('*', vim.fn.join(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n'))
+                vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
+                vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
+                vim.fn['skkeleton#handle']('enable', {})
+
+                if vim.api.nvim_get_mode().mode == 'i' then
+                  return
+                end
+                vim.api.nvim_input('<Esc>i')
+              end)
             end,
           })
         )"
