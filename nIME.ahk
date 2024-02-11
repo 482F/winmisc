@@ -74,15 +74,28 @@ launch() {
               vim.fn['skkeleton#handle']('enable', {})
 
               vim.keymap.set({ 'i', 'n', 'x' }, '<F36>', function()
-                vim.fn.setreg('*', vim.fn.join(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n'))
-                vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
-                vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
-                vim.fn['skkeleton#handle']('enable', {})
+                local func = function()
+                  vim.fn.setreg('*', vim.fn.join(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n'))
+                  vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
+                  vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
+                  vim.fn['skkeleton#handle']('enable', {})
+
+                  if vim.api.nvim_get_mode().mode == 'i' then
+                    return
+                  end
+                  vim.api.nvim_input('<Esc>i')
+                end
 
                 if vim.api.nvim_get_mode().mode == 'i' then
-                  return
+                  vim.api.nvim_create_autocmd({ 'User' }, {
+                    pattern = { 'skkeleton-handled' },
+                    once = true,
+                    callback = func,
+                  })
+                  vim.fn['skkeleton#handle']('disable', {})
+                else
+                  func()
                 end
-                vim.api.nvim_input('<Esc>i')
               end)
             end,
           })
