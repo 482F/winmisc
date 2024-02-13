@@ -67,38 +67,43 @@ launch() {
       'wsl', 'nvim', '-c', '"lua (function()`n'
       . "
         (
-          vim.api.nvim_create_autocmd({ 'User' }, {
-            pattern = { 'DenopsPluginPost:skkeleton' },
-            callback = function()
-              vim.api.nvim_input('i')
+          local function finish_input()
+            local postprocess = function()
+              vim.fn.setreg('*', vim.fn.join(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n'))
+              vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
+              vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
               vim.fn['skkeleton#handle']('enable', {})
 
-              vim.keymap.set({ 'i', 'n', 'x' }, '<F36>', function()
-                local func = function()
-                  vim.fn.setreg('*', vim.fn.join(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n'))
-                  vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
-                  vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
-                  vim.fn['skkeleton#handle']('enable', {})
+              if vim.api.nvim_get_mode().mode == 'i' then
+                return
+              end
+              vim.api.nvim_input('<Esc>i')
+            end
 
-                  if vim.api.nvim_get_mode().mode == 'i' then
-                    return
-                  end
-                  vim.api.nvim_input('<Esc>i')
-                end
+            if vim.api.nvim_get_mode().mode == 'i' then
+              vim.api.nvim_create_autocmd({ 'User' }, {
+                pattern = { 'skkeleton-handled' },
+                once = true,
+                callback = postprocess,
+              })
+              vim.fn['skkeleton#handle']('disable', {})
+            else
+              postprocess()
+            end
+          end
 
-                if vim.api.nvim_get_mode().mode == 'i' then
-                  vim.api.nvim_create_autocmd({ 'User' }, {
-                    pattern = { 'skkeleton-handled' },
-                    once = true,
-                    callback = func,
-                  })
-                  vim.fn['skkeleton#handle']('disable', {})
-                else
-                  func()
-                end
-              end)
-            end,
+          local function init()
+            vim.api.nvim_input('i')
+            vim.fn['skkeleton#handle']('enable', {})
+
+            vim.keymap.set({ 'i', 'n', 'x' }, '<F36>', finish_input)
+          end
+
+          vim.api.nvim_create_autocmd({ 'User' }, {
+            pattern = { 'DenopsPluginPost:skkeleton' },
+            callback = init,
           })
+
         )"
       . '`nend)()"'
     ],
