@@ -129,7 +129,9 @@ launch()
   launch()
 
   if (isActive) {
+    A_Clipboard := ''
     send('^{F12}')
+    clipWait(3)
     winHide(createCriteria())
     send('!{Esc}')
   } else {
