@@ -119,8 +119,6 @@ launch() {
   winSetTransparent(200, createCriteria())
 }
 
-launch()
-
 !@:: {
   global nimeHwnd
 
@@ -142,6 +140,8 @@ launch()
   return
 }
 
+launch()
+
 oe(reason, code) {
   if (not nimeHwnd) {
     return
@@ -155,3 +155,4 @@ onExit(oe)
 ; 全角半角キー
 vkF3::return
 vkF4::return
+
