@@ -152,7 +152,7 @@ oe(reason, code) {
 }
 onExit(oe)
 
-; 全角半角キー
+; 全角半角キーを無効化
 vkF3::return
 vkF4::return
 
