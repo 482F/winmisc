@@ -156,3 +156,15 @@ onExit(oe)
 vkF3::return
 vkF4::return
 
+#HotIf WinActive('ahk_exe WindowsTerminal.exe')
+; CapsLock、無変換、変換、かなキーをリマップ
+vkf0::F1
+vk1d::F2
+vk1c::F3
+vkf2::F4
++vkf0::F5
++vk1d::F6
++vk1c::F7
++vkf2::F8
+#HotIf
+
