@@ -156,7 +156,7 @@ onExit(oe)
 vkF3::return
 vkF4::return
 
-#HotIf WinActive('ahk_exe WindowsTerminal.exe')
+#HotIf WinActive('ahk_exe WindowsTerminal.exe') WinActive('ahk_exe nvim-qt.exe')
 ; CapsLock、無変換、変換、かなキーをリマップ
 vkf0::F1
 vk1d::F2
