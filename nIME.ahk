@@ -111,7 +111,7 @@ launch() {
   )
   run(cmd)
 
-  if (not winWait(nimeWinTitle, , 3)) {
+  if (not winWait(nimeWinTitle, , 10)) {
     throw Error('launch failed')
   }
   nimeHwnd := winGetId(nimeWinTitle)
