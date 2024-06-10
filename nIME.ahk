@@ -60,7 +60,7 @@ launch() {
     [
       'wt',
       '-w', nimeWinTitle,
-      '--pos', '16,16',
+      '--pos', '120,16',
       '--size', '84,12',
       'new-tab',
       '--title', nimeWinTitle,
