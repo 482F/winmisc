@@ -67,18 +67,18 @@ launch() {
       'wsl', 'nvim', '-c', '"lua (function()`n'
       . "
         (
-          local function finish_input()
-            local postprocess = function()
-              vim.fn.setreg('*', vim.fn.join(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n'))
-              vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
-              vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
+          local function postprocess()
+            vim.fn.setreg('*', vim.fn.join(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n'))
+            vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
+            vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
 
-              if vim.api.nvim_get_mode().mode ~= 'i' then
-                vim.api.nvim_input('<Esc>i')
-              end
-              vim.fn['skkeleton#handle']('enable', {})
+            if vim.api.nvim_get_mode().mode ~= 'i' then
+              vim.api.nvim_input('<Esc>i')
             end
+            vim.fn['skkeleton#handle']('enable', {})
+          end
 
+          local function finish_input()
             if vim.api.nvim_get_mode().mode == 'i' then
               vim.api.nvim_create_autocmd({ 'User' }, {
                 pattern = { 'skkeleton-handled' },
