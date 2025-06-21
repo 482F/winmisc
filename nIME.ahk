@@ -71,20 +71,18 @@ class nime {
               vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
               vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
 
-              if vim.api.nvim_get_mode().mode ~= 'i' then
-                vim.api.nvim_input('<Esc>i')
-              end
+              vim.api.nvim_input('i')
               vim.fn['skkeleton#handle']('enable', {})
             end
 
             local function finish_input()
-              if vim.api.nvim_get_mode().mode == 'i' then
+              vim.api.nvim_input('<Esc><Esc>')
+              if vim.fn['skkeleton#is_enabled']() then
                 vim.api.nvim_create_autocmd({ 'User' }, {
                   pattern = { 'skkeleton-handled' },
                   once = true,
                   callback = postprocess,
                 })
-                vim.fn['skkeleton#handle']('disable', {})
               else
                 postprocess()
               end
