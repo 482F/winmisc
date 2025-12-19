@@ -1,5 +1,5 @@
 DetectHiddenWindows true
-SetTitleMatchMode 3
+SetTitleMatchMode 2 ; 部分一致
 
 class nime {
   static winTitle := 'nime'
