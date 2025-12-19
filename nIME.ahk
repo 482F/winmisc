@@ -71,8 +71,7 @@ class nime {
               vim.bo.undolevels = vim.bo.undolevels -- undo-break を実行
               vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
 
-              vim.api.nvim_input('i')
-              vim.fn['skkeleton#handle']('enable', {})
+              vim.api.nvim_input('i<Plug>(skkeleton-enable)')
             end
 
             local function finish_input()
@@ -89,8 +88,7 @@ class nime {
             end
 
             local function init()
-              vim.api.nvim_input('i')
-              vim.fn['skkeleton#handle']('enable', {})
+              vim.api.nvim_input('i<Plug>(skkeleton-enable)')
 
               vim.keymap.set({ 'i', 'n', 'x' }, '<F36>', finish_input)
             end
